@@ -18,10 +18,9 @@
 <div id="container">
     <h3>Update Food</h3>
 
-    <form action="FoodControllerServlet" method="POST">
+    <form action="FoodControllerServlet" method="POST" enctype="multipart/form-data">
 
         <input type="hidden" name="command" value="UPDATE" />
-
         <input type="hidden" name="foodId" value="${THE_FOOD.id}" />
 
         <table>
@@ -37,8 +36,13 @@
             </tr>
 
             <tr>
-                <td><label>Image:</label></td>
-                <td><input type="text" name="image" value="${THE_FOOD.image}" /></td>
+                <td><label>Current Image:</label></td>
+                <td><img src="${THE_FOOD.image}" alt="Current Image" class="current-image" /></td>
+            </tr>
+
+            <tr>
+                <td><label>New Image:</label></td>
+                <td><input type="file" name="image" /></td>
             </tr>
 
             <tr>

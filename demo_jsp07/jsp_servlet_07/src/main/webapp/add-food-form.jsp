@@ -18,7 +18,7 @@
 <div id="container">
     <h3>Add Food</h3>
 
-    <form action="FoodControllerServlet" method="POST">
+    <form action="FoodControllerServlet" method="POST" enctype="multipart/form-data">
 
         <input type="hidden" name="command" value="ADD" />
 
@@ -36,7 +36,7 @@
 
             <tr>
                 <td><label>Image URL:</label></td>
-                <td><input type="text" name="image" /></td>
+                <td><input type="file" name="image" id="image" /></td>
             </tr>
 
             <tr>

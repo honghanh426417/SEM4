@@ -41,7 +41,7 @@
                 <tr>
                     <td>${tempFood.name}</td>
                     <td>${tempFood.categoryId}</td>
-                    <td>${tempFood.image}</td>
+                    <td><img src="${tempFood.image}" alt="Product Image" class="image-container" style="width: 100px; height:100px"></td>
                     <td>${tempFood.description}</td>
                     <td>${tempFood.quantity}</td>
                     <td>${tempFood.price}</td>
