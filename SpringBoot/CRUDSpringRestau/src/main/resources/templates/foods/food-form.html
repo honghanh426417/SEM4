@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -8,39 +7,26 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
     <title>Save Food</title>
 </head>
 <body>
 <div class="container">
-    <h3>List Food</h3>
+    <h3>Food Restaurant</h3>
     <hr>
     <p class="h4 mb-4">Save Food</p>
-    <form action="#" th:action="@{/foods/save}"
-          th:object="${food}" method="POST">
+    <form th:action="@{/foods/save}" th:object="${foods}" method="POST" enctype="multipart/form-data">
         <!-- Add hidden form field to handle update -->
         <input type="hidden" th:field="*{id}" />
-        <p>Name :</p>
-        <input type="text" th:field="*{name}"
-               class="form-control mb-4 col-4" placeholder="Name">
-        <p>Image:</p>
-        <input type="text" th:field="*{image}"
-               class="form-control mb-4 col-4" placeholder="Image URL">
-        <p>Description :</p>
-        <input type="text" th:field="*{description}"
-               class="form-control mb-4 col-4" placeholder="Description">
-        <p>Quanlity :</p>
-        <input type="number" th:field="*{quantity}"
-               class="form-control mb-4 col-4" placeholder="Quantity">
-        <p>Price :</p>
-        <input type="number" th:field="*{price}"
-               class="form-control mb-4 col-4" placeholder="Price">
+
+        <input type="text" th:field="*{name}" class="form-control mb-4 col-4" placeholder="Name">
+        <input type="file" name="file" class="form-control mb-4 col-4" placeholder="Image">
+        <input type="text" th:field="*{description}" class="form-control mb-4 col-4" placeholder="Description">
+        <input type="text" th:field="*{quantity}" class="form-control mb-4 col-4" placeholder="Quantity">
+        <input type="text" th:field="*{price}" class="form-control mb-4 col-4" placeholder="Price">
         <button type="submit" class="btn btn-info col-2">Save</button>
     </form>
     <hr>
     <a th:href="@{/foods/list}">Back to Foods List</a>
-
 </div>
 </body>
-
 </html>

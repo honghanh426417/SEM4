@@ -1,5 +1,10 @@
 package hanh.codelean.crudspringrestau.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import hanh.codelean.crudspringrestau.entity.Food;
 import hanh.codelean.crudspringrestau.service.FoodService;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/foods")
@@ -46,7 +52,7 @@ public class FoodController {
         // create model attribute to bind form data
         Food theFood = new Food();
 
-        theModel.addAttribute("food", theFood);
+        theModel.addAttribute("foods", theFood);
 
         return "foods/food-form";
     }
@@ -59,22 +65,59 @@ public class FoodController {
         Food theFood = foodService.findById(theId);
 
         // set food as a model attribute to pre-populate the form
-        theModel.addAttribute("food", theFood);
+        theModel.addAttribute("foods", theFood);
 
         // send over to our form
         return "foods/food-form";
     }
 
+    private static String UPLOADED_FOLDER = "src/main/resources/static/images"; // Path to static folder
 
     @PostMapping("/save")
-    public String saveFood(@ModelAttribute("food") Food theFood) {
+    public String saveFood(@ModelAttribute("food") Food theFood,
+                           @RequestParam("file") MultipartFile file,
+                           Model model) {
 
-        // save the food
+        // Save the uploaded file to the specified folder
+        if (!file.isEmpty()) {
+            try {
+                // Create directory if it doesn't exist
+                File directory = new File(UPLOADED_FOLDER);
+                if (!directory.exists()) {
+                    directory.mkdirs();
+                }
+
+                // Save the file
+                byte[] bytes = file.getBytes();
+                Path path = Paths.get(UPLOADED_FOLDER + File.separator + file.getOriginalFilename());
+                Files.write(path, bytes);
+
+                // Set the image path to the Food object
+                theFood.setImage("/images/" + file.getOriginalFilename());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                model.addAttribute("message", "File upload failed: " + e.getMessage());
+                return "error"; // Return to a custom error page
+            }
+        }
+
+        // Save the Food object
         foodService.save(theFood);
 
-        // use a redirect to prevent duplicate submissions
+        // Redirect to prevent duplicate submissions
         return "redirect:/foods/list";
     }
+
+//    @PostMapping("/save")
+//    public String saveFood(@ModelAttribute("food") Food theFood) {
+//
+//        // save the food
+//        foodService.save(theFood);
+//
+//        // use a redirect to prevent duplicate submissions
+//        return "redirect:/foods/list";
+//    }
 
 
     @PostMapping("/delete")
